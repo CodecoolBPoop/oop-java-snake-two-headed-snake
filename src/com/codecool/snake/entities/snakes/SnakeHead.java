@@ -6,7 +6,8 @@ import com.codecool.snake.entities.Animatable;
 import com.codecool.snake.Utils;
 import com.codecool.snake.entities.Interactable;
 import javafx.geometry.Point2D;
-import javafx.scene.layout.Pane;
+import javafx.scene.control.Label;
+import javafx.scene.layout.*;
 
 public class SnakeHead extends GameEntity implements Animatable {
 
@@ -14,15 +15,23 @@ public class SnakeHead extends GameEntity implements Animatable {
     private static final float turnRate = 2;
     private GameEntity tail; // the last element. Needed to know where to add the next part.
     private int health;
+    private Label healthBar;
 
     public SnakeHead(Pane pane, int xc, int yc) {
         super(pane);
         setX(xc);
         setY(yc);
         health = 100;
+        healthBar = new Label(String.valueOf(health));
+        healthBar.setTranslateX(10);
+        healthBar.setTranslateY(10);
+        healthBar.getStyleClass().add("health-bar");
+        healthBar.getStylesheets().add("css/main.css");
+
         tail = this;
         setImage(Globals.snakeHead);
         pane.getChildren().add(this);
+        pane.getChildren().add(healthBar);
 
         addPart(4);
     }
@@ -61,12 +70,12 @@ public class SnakeHead extends GameEntity implements Animatable {
 
     public void addPart(int numParts) {
         for (int i = 0; i < numParts; i++) {
-            SnakeBody newPart = new SnakeBody(pane, tail);
-            tail = newPart;
+            tail = new SnakeBody(pane, tail);
         }
     }
 
     public void changeHealth(int diff) {
         health += diff;
+        healthBar.setText(String.valueOf(health));
     }
 }

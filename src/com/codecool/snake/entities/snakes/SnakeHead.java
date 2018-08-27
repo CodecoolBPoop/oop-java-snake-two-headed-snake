@@ -21,12 +21,9 @@ public class SnakeHead extends GameEntity implements Animatable {
         super(pane);
         setX(xc);
         setY(yc);
+
         health = 100;
-        healthBar = new Label(String.valueOf(health));
-        healthBar.setTranslateX(10);
-        healthBar.setTranslateY(10);
-        healthBar.getStyleClass().add("health-bar");
-        healthBar.getStylesheets().add("css/main.css");
+        displayHealth();
 
         tail = this;
         setImage(Globals.snakeHead);
@@ -34,6 +31,14 @@ public class SnakeHead extends GameEntity implements Animatable {
         pane.getChildren().add(healthBar);
 
         addPart(4);
+    }
+
+    private void displayHealth() {
+        healthBar = new Label(String.valueOf(health));
+        healthBar.setTranslateX(10);
+        healthBar.setTranslateY(10);
+        healthBar.getStyleClass().add("health-bar");
+        healthBar.getStylesheets().add("css/main.css");
     }
 
     public void step() {

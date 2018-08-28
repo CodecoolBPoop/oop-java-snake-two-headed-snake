@@ -29,4 +29,18 @@ public abstract class GameEntity extends ImageView {
         }
         return false;
     }
+
+    protected void interactIfPossible() {
+        for (GameEntity entity : Globals.getGameObjects()) {
+            if (getBoundsInParent().intersects(entity.getBoundsInParent())) {
+                if (entity instanceof Interactable) {
+                    Interactable interactable = (Interactable) entity;
+                    interactable.apply(this);
+                    //System.out.println(interactable.getMessage());
+                }
+            }
+        }
+    }
+
+
 }

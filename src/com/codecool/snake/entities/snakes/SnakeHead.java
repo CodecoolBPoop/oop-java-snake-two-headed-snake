@@ -6,7 +6,6 @@ import com.codecool.snake.entities.GameEntity;
 import com.codecool.snake.Globals;
 import com.codecool.snake.entities.Animatable;
 import com.codecool.snake.Utils;
-import com.codecool.snake.entities.Interactable;
 import javafx.geometry.Point2D;
 
 public class SnakeHead extends GameEntity implements Animatable {
@@ -52,15 +51,7 @@ public class SnakeHead extends GameEntity implements Animatable {
         setY(getY() + heading.getY());
 
         // check if collided with an enemy or a powerup
-        for (GameEntity entity : Globals.getGameObjects()) {
-            if (getBoundsInParent().intersects(entity.getBoundsInParent())) {
-                if (entity instanceof Interactable) {
-                    Interactable interactable = (Interactable) entity;
-                    interactable.apply(this);
-                    System.out.println(interactable.getMessage());
-                }
-            }
-        }
+        interactIfPossible();
 
         // check for game over condition
         if (isOutOfBounds() || health <= 0) {

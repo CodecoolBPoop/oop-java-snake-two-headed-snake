@@ -8,15 +8,15 @@ import com.codecool.snake.entities.Animatable;
 import com.codecool.snake.Utils;
 import com.codecool.snake.entities.Interactable;
 import javafx.geometry.Point2D;
-import javafx.scene.control.Label;
-import javafx.scene.layout.*;
 
 public class SnakeHead extends GameEntity implements Animatable {
 
     private static final float speed = 2;
     private static final float turnRate = 2;
     private GameEntity tail; // the last element. Needed to know where to add the next part.
-    private int health;
+    private int health = 100;
+    private int score = 0;
+    private int stepCounter = 0;
     private Display display;
 
 
@@ -26,8 +26,8 @@ public class SnakeHead extends GameEntity implements Animatable {
         setY(yc);
         display = pane.getDisplay();
 
-        health = 100;
         display.health(health);
+        display.score(score);
 
         tail = this;
         setImage(Globals.snakeHead);
@@ -67,6 +67,10 @@ public class SnakeHead extends GameEntity implements Animatable {
             System.out.println("Game Over");
             Globals.gameLoop.stop();
         }
+
+        if (stepCounter % 60 == 0) updateScore(1);
+
+        stepCounter++;
     }
 
     public void addPart(int numParts) {
@@ -78,5 +82,10 @@ public class SnakeHead extends GameEntity implements Animatable {
     public void changeHealth(int diff) {
         health += diff;
         display.health(health);
+    }
+
+    public void updateScore(int diff) {
+        score += diff;
+        display.score(score);
     }
 }

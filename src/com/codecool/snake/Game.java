@@ -8,7 +8,7 @@ import javafx.scene.layout.Pane;
 
 public class Game extends Pane {
 
-    private  Display display =  new Display(this);
+    private  Display display =  new Display();
 
     public Game() {
 
@@ -24,7 +24,7 @@ public class Game extends Pane {
         new SimplePowerup(this);
         new SimplePowerup(this);
 
-
+        this.getChildren().add(display);
     }
 
     public Display getDisplay() {

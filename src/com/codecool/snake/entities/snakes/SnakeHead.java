@@ -1,45 +1,41 @@
 package com.codecool.snake.entities.snakes;
 
+import com.codecool.snake.Display;
+import com.codecool.snake.Game;
 import com.codecool.snake.entities.GameEntity;
 import com.codecool.snake.Globals;
 import com.codecool.snake.entities.Animatable;
 import com.codecool.snake.Utils;
 import com.codecool.snake.entities.Interactable;
 import javafx.geometry.Point2D;
-import javafx.scene.control.Label;
-import javafx.scene.layout.*;
 
 public class SnakeHead extends GameEntity implements Animatable {
 
     private static final float speed = 2;
     private static final float turnRate = 2;
     private GameEntity tail; // the last element. Needed to know where to add the next part.
-    private int health;
-    private Label healthBar;
+    private int health = 100;
+    private int score = 0;
+    private int stepCounter = 0;
+    private Display display;
 
-    public SnakeHead(Pane pane, int xc, int yc) {
+
+    public SnakeHead(Game pane, int xc, int yc) {
         super(pane);
         setX(xc);
         setY(yc);
+        display = pane.getDisplay();
 
-        health = 100;
-        displayHealth();
+        display.health(health);
+        display.score(score);
 
         tail = this;
         setImage(Globals.snakeHead);
         pane.getChildren().add(this);
-        pane.getChildren().add(healthBar);
 
         addPart(4);
     }
 
-    private void displayHealth() {
-        healthBar = new Label(String.valueOf(health));
-        healthBar.setTranslateX(10);
-        healthBar.setTranslateY(10);
-        healthBar.getStyleClass().add("health-bar");
-        healthBar.getStylesheets().add("css/main.css");
-    }
 
     public void step() {
         double dir = getRotate();
@@ -71,6 +67,10 @@ public class SnakeHead extends GameEntity implements Animatable {
             System.out.println("Game Over");
             Globals.gameLoop.stop();
         }
+
+        if (stepCounter % 60 == 0) updateScore(1);
+
+        stepCounter++;
     }
 
     public void addPart(int numParts) {
@@ -81,6 +81,11 @@ public class SnakeHead extends GameEntity implements Animatable {
 
     public void changeHealth(int diff) {
         health += diff;
-        healthBar.setText(String.valueOf(health));
+        display.health(health);
+    }
+
+    public void updateScore(int diff) {
+        score += diff;
+        display.score(score);
     }
 }

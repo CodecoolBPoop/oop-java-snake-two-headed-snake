@@ -37,7 +37,7 @@ public class Game extends Pane {
                 case RIGHT: Globals.rightKeyDown  = false; break;
             }
         });
-        Globals.gameLoop = new GameLoop();
+        Globals.gameLoop = new GameLoop(this);
         Globals.gameLoop.start();
     }
 }

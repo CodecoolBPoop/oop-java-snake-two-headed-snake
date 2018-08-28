@@ -1,9 +1,16 @@
-.health-bar {
+.bar {
     -fx-font-size: 16pt;
     -fx-border-style: solid;
     -fx-border-color: black;
     -fx-border-width: 3px;
     -fx-padding: 5px;
     -fx-font-weight: bold;
+}
+
+.health {
     -fx-text-fill: red;
+}
+
+.score {
+    -fx-text-fill: blue;
 }

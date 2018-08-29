@@ -32,7 +32,7 @@ public abstract class GameEntity extends ImageView {
 
     protected void interactIfPossible() {
         for (GameEntity entity : Globals.getGameObjects()) {
-            if (getBoundsInParent().intersects(entity.getBoundsInParent())) {
+            if (getBoundsInLocal().intersects(entity.getBoundsInLocal())) {
                 if (entity instanceof Interactable) {
                     Interactable interactable = (Interactable) entity;
                     interactable.apply(this);

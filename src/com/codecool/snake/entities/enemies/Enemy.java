@@ -8,20 +8,24 @@ import com.codecool.snake.entities.Interactable;
 import com.codecool.snake.entities.snakes.SnakeHead;
 import javafx.geometry.Point2D;
 import javafx.scene.layout.Pane;
+import javafx.scene.transform.Rotate;
+import javafx.scene.transform.Translate;
 
 import java.util.Random;
 
 public abstract class Enemy extends GameEntity implements Animatable, Interactable {
     private int damage;
+    private int speed;
     private Point2D heading;
+    private boolean isFlipped = false;
 
-    Enemy(Pane pane, int damage) {
+    Enemy(Pane pane, int damage, int speed) {
         super(pane);
         this.damage = damage;
+        this.speed = speed;
     }
 
     void spawn() {
-        int speed = 1;
         Random rnd = new Random();
 
         boolean isHorizontal = rnd.nextBoolean();
@@ -36,8 +40,17 @@ public abstract class Enemy extends GameEntity implements Animatable, Interactab
         }
 
         double direction = computeDirection(isHorizontal, isZero);
+
+        if (direction < 180 && isFlipped) flip();
+        else if (direction > 180 && !isFlipped) flip();
+
         setRotate(direction);
         heading = Utils.directionToVector(direction, speed);
+    }
+
+    private void flip() {
+        isFlipped = !isFlipped;
+        this.setScaleX(isFlipped ? -1 : 1);
     }
 
     private double computeDirection(boolean isHorizontal, boolean isZero) {
@@ -49,8 +62,8 @@ public abstract class Enemy extends GameEntity implements Animatable, Interactab
         } else {
             if (isZero) return angle + 90;
             else {
-                if (angle <= 90) return angle;
-                else return angle + 270;
+                if (angle <= 90) return angle + 270;
+                else return angle;
             }
         }
     }
@@ -66,7 +79,7 @@ public abstract class Enemy extends GameEntity implements Animatable, Interactab
 
     @Override
     public void apply(GameEntity entity) {
-        if (entity instanceof SnakeHead) {
+        if (entity instanceof SnakeHead && !(this instanceof ChompEnemy)) {
             ((SnakeHead) entity).changeHealth(-damage);
             destroy();
         }

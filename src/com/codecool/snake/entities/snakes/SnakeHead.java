@@ -10,12 +10,13 @@ import javafx.geometry.Point2D;
 
 public class SnakeHead extends GameEntity implements Animatable {
 
-    private static final float speed = 2;
+    private static float speed = 2;
     private static final float turnRate = 2;
     private GameEntity tail; // the last element. Needed to know where to add the next part.
     private int health = 100;
     private int score = 0;
     private int stepCounter = 0;
+    private int gameOverTimeDelay = 70;
     private Display display;
 
 
@@ -37,6 +38,8 @@ public class SnakeHead extends GameEntity implements Animatable {
 
 
     public void step() {
+        if (health == 0) speed = 0.5F;
+
         double dir = getRotate();
         if (Globals.leftKeyDown) {
             dir = dir - turnRate;
@@ -50,14 +53,16 @@ public class SnakeHead extends GameEntity implements Animatable {
         setX(getX() + heading.getX());
         setY(getY() + heading.getY());
 
-        // check if collided with an enemy or a powerup
-        interactIfPossible();
-
         // check for game over condition
-        if (isOutOfBounds() || health <= 0) {
+        if (isOutOfBounds() || health == 0) {
+            gameOverTimeDelay--;
+            if (gameOverTimeDelay > 0) return;
             System.out.println("Game Over");
             Globals.gameLoop.stop();
         }
+
+        // check if collided with an enemy or a powerup
+        interactIfPossible();
 
         if (stepCounter % 60 == 0) updateScore(1);
 
@@ -66,12 +71,18 @@ public class SnakeHead extends GameEntity implements Animatable {
 
     public void addPart(int numParts) {
         for (int i = 0; i < numParts; i++) {
-            tail = new SnakeBody(pane, tail);
+            tail = new SnakeBody(pane, tail, this);
         }
     }
 
+    public void removePart() {
+        GameEntity newTail = ((SnakeBody) tail).getPreviousPart();
+        tail.destroy();
+        tail = newTail;
+    }
+
     public void changeHealth(int diff) {
-        health += diff;
+        health = Math.max(health + diff, 0);
         display.health(health);
     }
 

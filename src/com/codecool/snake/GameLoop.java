@@ -18,11 +18,12 @@ public class GameLoop extends AnimationTimer {
     // This gets called every 1/60 seconds
     @Override
     public void handle(long now) {
-        if ((int) (now / 16666666.6667) % 900 == 0) new SimpleEnemy(game);
-        if ((int) (now / 16666666.6667) % 1200 == 0) new SimplePowerup(game);
+        int frame = (int) (now / 16666666.6667);
+        if (frame % 900 == 0) new SimpleEnemy(game); // 15 seconds
+        if (frame % 1200 == 0) new SimplePowerup(game); // 20 seconds
         for (GameEntity gameObject : Globals.gameObjects) {
             if (gameObject instanceof Animatable) {
-                Animatable animObject = (Animatable)gameObject;
+                Animatable animObject = (Animatable) gameObject;
                 animObject.step();
             }
         }

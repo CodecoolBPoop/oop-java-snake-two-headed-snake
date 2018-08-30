@@ -7,6 +7,7 @@ import com.codecool.snake.entities.powerups.HealthPack;
 import com.codecool.snake.entities.powerups.SimplePowerUp;
 import com.codecool.snake.entities.powerups.Shield;
 import com.codecool.snake.entities.snakes.SnakeHead;
+import com.sun.org.apache.bcel.internal.generic.GotoInstruction;
 import javafx.scene.Scene;
 import javafx.scene.layout.Pane;
 
@@ -51,6 +52,9 @@ public class Game extends Pane {
             switch (event.getCode()) {
                 case LEFT:  Globals.leftKeyDown  = false; break;
                 case RIGHT: Globals.rightKeyDown  = false; break;
+                case R:
+                    Globals.gameLoop.stop();
+                    Main.restart(Globals.primaryStage);
             }
         });
         Globals.gameLoop = new GameLoop(this);

@@ -8,6 +8,7 @@ import com.codecool.snake.entities.Animatable;
 import com.codecool.snake.Utils;
 import javafx.geometry.Point2D;
 
+
 public class SnakeHead extends GameEntity implements Animatable {
 
     private static float speed = 2;

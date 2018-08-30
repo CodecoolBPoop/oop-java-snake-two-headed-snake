@@ -13,6 +13,8 @@ public class Game extends Pane {
     private  Display display =  new Display();
 
     public Game() {
+        this.getStylesheets().add("css/main.css");
+        this.getStyleClass().add("main");
 
         new SnakeHead(this, 500, 500);
 

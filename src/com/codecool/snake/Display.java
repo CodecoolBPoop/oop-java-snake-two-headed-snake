@@ -10,7 +10,6 @@ public class Display extends FlowPane {
   private HBox hbox = new HBox();
 
   Display() {
-      this.getStylesheets().add("css/main.css");
       hbox.getStyleClass().add("hbox");
       this.getChildren().add(hbox);
       addHealthBar();

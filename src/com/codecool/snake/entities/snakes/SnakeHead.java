@@ -16,7 +16,6 @@ public class SnakeHead extends GameEntity implements Animatable {
     private GameEntity tail; // the last element. Needed to know where to add the next part.
     private int tailLength;
     private int health = 100;
-    private double score = 0;
     private boolean shield;
     private int shieldTimer = 0;
     private int stepCounter = 0;
@@ -29,7 +28,7 @@ public class SnakeHead extends GameEntity implements Animatable {
         setY(yc);
 
         Globals.display.health(health);
-        Globals.display.score(score);
+        Globals.display.score(Globals.score);
 
         tail = this;
         setImage(Globals.snakeHead);
@@ -60,6 +59,7 @@ public class SnakeHead extends GameEntity implements Animatable {
             gameOverTimeDelay--;
             if (gameOverTimeDelay > 0) return;
             System.out.println("Game Over");
+            Globals.display.gameOverScreen();
             Globals.gameLoop.stop();
         }
 
@@ -98,8 +98,8 @@ public class SnakeHead extends GameEntity implements Animatable {
     }
 
     public void updateScore(double diff) {
-        score += diff;
-        Globals.display.score(score);
+        Globals.score += diff;
+        Globals.display.score(Globals.score);
     }
 
     public boolean hasShield() {

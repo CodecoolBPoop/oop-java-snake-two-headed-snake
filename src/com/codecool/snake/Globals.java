@@ -35,8 +35,10 @@ public class Globals {
     public static GameLoop gameLoop;
     public static Stage primaryStage;
     public static Display display;
+    public static double score;
 
     public static void init() {
+        score = 0;
         gameObjects = new LinkedList<>();
         newGameObjects = new LinkedList<>();
         oldGameObjects = new LinkedList<>();

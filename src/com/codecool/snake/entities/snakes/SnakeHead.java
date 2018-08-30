@@ -13,23 +13,22 @@ public class SnakeHead extends GameEntity implements Animatable {
     private static float speed = 2;
     private static final float turnRate = 2;
     private GameEntity tail; // the last element. Needed to know where to add the next part.
+    private int tailLength;
     private int health = 100;
-    private int score = 0;
+    private double score = 0;
     private boolean shield;
-    private  int shieldTimer = 0;
+    private int shieldTimer = 0;
     private int stepCounter = 0;
     private int gameOverTimeDelay = 70;
-    private Display display;
 
 
     public SnakeHead(Game pane, int xc, int yc) {
         super(pane);
         setX(xc);
         setY(yc);
-        display = pane.getDisplay();
 
-        display.health(health);
-        display.score(score);
+        Globals.display.health(health);
+        Globals.display.score(score);
 
         tail = this;
         setImage(Globals.snakeHead);
@@ -66,7 +65,7 @@ public class SnakeHead extends GameEntity implements Animatable {
         // check if collided with an enemy or a powerup
         interactIfPossible();
 
-        if (stepCounter % 60 == 0) updateScore(1);
+        if (stepCounter % 60 == 0) updateScore(0.5 * tailLength);
 
         stepCounter++;
         if (shieldTimer > 0) {
@@ -81,6 +80,7 @@ public class SnakeHead extends GameEntity implements Animatable {
     public void addPart(int numParts) {
         for (int i = 0; i < numParts; i++) {
             tail = new SnakeBody(pane, tail, this);
+            tailLength++;
         }
     }
 
@@ -88,23 +88,24 @@ public class SnakeHead extends GameEntity implements Animatable {
         GameEntity newTail = ((SnakeBody) tail).getPreviousPart();
         tail.destroy();
         tail = newTail;
+        tailLength--;
     }
 
     public void changeHealth(int diff) {
-        health = Math.max(health + diff, 0);
-        display.health(health);
+        health = Math.min(Math.max(health + diff, 0), 100);
+        Globals.display.health(health);
     }
 
-    public void updateScore(int diff) {
+    public void updateScore(double diff) {
         score += diff;
-        display.score(score);
+        Globals.display.score(score);
     }
 
-    public boolean hasShielding() {
+    public boolean hasShield() {
         return shield;
     }
 
-    public void setShielding() {
+    public void setShield() {
         shield = true;
         this.setImage(Globals.snakeHead1);
         shieldTimer = 600;

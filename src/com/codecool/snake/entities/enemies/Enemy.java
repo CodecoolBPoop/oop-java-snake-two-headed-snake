@@ -16,7 +16,7 @@ import java.util.Random;
 public abstract class Enemy extends GameEntity implements Animatable, Interactable {
     private int damage;
     private int speed;
-    private Point2D heading;
+    Point2D heading;
     private boolean isFlipped = false;
 
     Enemy(Pane pane, int damage, int speed) {
@@ -79,8 +79,9 @@ public abstract class Enemy extends GameEntity implements Animatable, Interactab
 
     @Override
     public void apply(GameEntity entity) {
-        if (entity instanceof SnakeHead && !(this instanceof ChompEnemy)) {
-            ((SnakeHead) entity).changeHealth(-damage);
+        if (entity instanceof SnakeHead && this instanceof SimpleEnemy) {
+            SnakeHead head = (SnakeHead) entity;
+            if (!head.hasShield()) head.changeHealth(-damage);
             destroy();
         }
     }

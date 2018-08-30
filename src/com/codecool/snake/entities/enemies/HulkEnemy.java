@@ -3,21 +3,23 @@ package com.codecool.snake.entities.enemies;
 import com.codecool.snake.Globals;
 import com.codecool.snake.Utils;
 import com.codecool.snake.entities.GameEntity;
+import com.codecool.snake.entities.powerups.Shield;
 import com.codecool.snake.entities.snakes.SnakeHead;
-import javafx.geometry.Point2D;
 import javafx.geometry.Rectangle2D;
 import javafx.scene.layout.Pane;
 
+import java.util.LinkedList;
+import java.util.List;
 import java.util.Random;
 
 public class HulkEnemy extends Enemy {
 
-    private int stepCounter = 0;
+    private long stepCounter = 0;
     private int smashTimer = 61;
     private static int damage = 100;
     private static final int speed = 3;
-    private Point2D heading;
-    private boolean isRunning = true;
+    private boolean running = true;
+    private List<GameEntity> toDestroy = new LinkedList<>();
 
     public HulkEnemy(Pane pane) {
         super(pane, damage, speed);
@@ -47,28 +49,26 @@ public class HulkEnemy extends Enemy {
 
         setY(rnd.nextDouble() * Globals.WINDOW_HEIGHT);
 
-        heading = Utils.directionToVector(direction, speed);
+        super.heading = Utils.directionToVector(direction, speed);
     }
 
     @Override
     public void step() {
 
-        if (isRunning) {
-            if (isOutOfBounds()) {
-                spawn();
-            }
-            setX(getX() + heading.getX());
-            setY(getY() + heading.getY());
+        if (running) {
+            super.step();
+            interactIfPossible();
         } else {
             smashTimer--;
+            if (smashTimer == 25) toDestroy.forEach(GameEntity::destroy);
             if (smashTimer == 0) {
                 smashTimer = 61;
-                isRunning = true;
+                running = true;
             }
         }
 
         if (stepCounter % 10 == 0) {
-            setViewport(isRunning ? RunAnimation.getNextFrame() : SmashAnimation.getNextFrame());
+            setViewport(running ? RunAnimation.getNextFrame() : SmashAnimation.getNextFrame());
         }
 
 
@@ -119,10 +119,19 @@ public class HulkEnemy extends Enemy {
         }
     }
 
+    public boolean isRunning() {
+        return running;
+    }
+
+    public void hulkSmash(GameEntity entity) {
+        if (entity instanceof Shield) toDestroy.add(entity);
+        running = false;
+    }
+
     @Override
     public void apply(GameEntity entity) {
-        isRunning = false;
         if (entity instanceof SnakeHead) {
+            hulkSmash(entity);
             ((SnakeHead) entity).changeHealth(-damage);
         }
     }

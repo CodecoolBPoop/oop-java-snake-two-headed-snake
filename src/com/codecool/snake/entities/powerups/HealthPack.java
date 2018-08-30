@@ -9,25 +9,27 @@ import javafx.scene.layout.Pane;
 import java.util.Random;
 
 public class HealthPack extends GameEntity implements Interactable {
-  public HealthPack(Pane pane) {
-    super(pane);
-    setImage(Globals.powerupHealth);
-    pane.getChildren().add(this);
+    public HealthPack(Pane pane) {
+        super(pane);
+        setImage(Globals.powerupHealth);
+        pane.getChildren().add(this);
 
-    Random rnd = new Random();
-    setX(rnd.nextDouble() * Globals.WINDOW_WIDTH);
-    setY(rnd.nextDouble() * Globals.WINDOW_HEIGHT);
-  }
+        Random rnd = new Random();
+        setX(rnd.nextDouble() * Globals.WINDOW_WIDTH);
+        setY(rnd.nextDouble() * Globals.WINDOW_HEIGHT);
+    }
 
-  @Override
-  public void apply(SnakeHead snakeHead) {
-    snakeHead.changeHealth(10);
-    destroy();
-  }
+    @Override
+    public void apply(GameEntity entity) {
+        if (entity instanceof SnakeHead) {
+            ((SnakeHead) entity).changeHealth(10);
+            destroy();
+        }
+    }
 
-  @Override
-  public String getMessage() {
+    @Override
+    public String getMessage() {
     return "Got power-up :)";
-  }
+    }
 
 }

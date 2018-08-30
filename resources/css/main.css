@@ -1,3 +1,7 @@
+.main {
+    -fx-background-color: linear-gradient(to bottom, #fcff7a 0%, #fcd200 100%);
+}
+
 .hbox {
     -fx-spacing: 10px;
     -fx-padding: 10px;

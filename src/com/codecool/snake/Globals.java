@@ -16,7 +16,10 @@ public class Globals {
     public static Image snakeHead = new Image("snake_head.png");
     public static Image snakeHead1 = new Image("snake_head1.png");
     public static Image snakeBody = new Image("snake_body.png");
-    public static Image simpleEnemy = new Image("simple_enemy.png");
+    public static Image simpleEnemy = new Image("ghost_enemy.png");
+    public static Image chompEnemy = new Image("chomp1_enemy.png");
+    public static Image chompEnemy2 = new Image("chomp2_enemy.png");
+    public static Image hulkEnemy = new Image("hulk.gif");
     public static Image powerupBerry = new Image("powerup_berry.png");
     public static Image powerupHealth = new Image("powerup_health.png");
     public static Image shield = new Image("shield.png");
@@ -29,6 +32,7 @@ public class Globals {
     public static List<GameEntity> newGameObjects; // Holds game objects crated in this frame.
     public static List<GameEntity> oldGameObjects; // Holds game objects that will be destroyed this frame.
     public static GameLoop gameLoop;
+    public static Display display;
 
     static {
         gameObjects = new LinkedList<>();

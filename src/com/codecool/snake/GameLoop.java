@@ -5,7 +5,7 @@ import com.codecool.snake.entities.Animatable;
 import com.codecool.snake.entities.enemies.SimpleEnemy;
 import com.codecool.snake.entities.powerups.HealthPack;
 import com.codecool.snake.entities.powerups.Shield;
-import com.codecool.snake.entities.powerups.SimplePowerup;
+import com.codecool.snake.entities.powerups.SimplePowerUp;
 import javafx.animation.AnimationTimer;
 import javafx.scene.layout.Pane;
 
@@ -20,14 +20,14 @@ public class GameLoop extends AnimationTimer {
     // This gets called every 1/60 seconds
     @Override
     public void handle(long now) {
-        if ((int) (now / 16666666.6667) % 900 == 0) new SimpleEnemy(game);
-        if ((int) (now / 16666666.6667) % 1200 == 0) new SimplePowerup(game);
-        if ((int) (now / 16666666.6667) % 1200 == 0) new HealthPack(game);
-        if ((int) (now / 16666666.6667) % 2400 == 0) new Shield(game);
-
+        int frame = (int) (now / 16666666.6667);
+        if (frame % 900 == 0) new SimpleEnemy(game); // 15 seconds
+        if (frame % 1200 == 0) new SimplePowerUp(game); // 20 seconds
+        if (frame % 1500 == 0) new HealthPack(game); // 25 seconds
+        if (frame % 2100 == 0) new Shield(game); // 35 seconds
         for (GameEntity gameObject : Globals.gameObjects) {
             if (gameObject instanceof Animatable) {
-                Animatable animObject = (Animatable)gameObject;
+                Animatable animObject = (Animatable) gameObject;
                 animObject.step();
             }
         }

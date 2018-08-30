@@ -5,7 +5,7 @@ import javafx.scene.layout.Pane;
 
 public class ChompEnemy extends Enemy {
 
-    private static final int damage = 20;
+    private static final int damage = 1;
     private static final int speed = 2;
     private long stepCounter = 0;
     private boolean chomp = false;

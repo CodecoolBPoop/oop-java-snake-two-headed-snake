@@ -57,5 +57,6 @@ public class Display extends FlowPane {
         modalWindow.initModality(Modality.WINDOW_MODAL);
         modalWindow.initOwner(Globals.primaryStage);
         modalWindow.show();
+        if (!modalWindow.isFocused()) modalWindow.requestFocus();
     }
 }

@@ -79,10 +79,10 @@ public abstract class Enemy extends GameEntity implements Animatable, Interactab
 
     @Override
     public void apply(GameEntity entity) {
-        if (entity instanceof SnakeHead && this instanceof SimpleEnemy) {
+        if (entity instanceof SnakeHead && !(this instanceof HulkEnemy)) {
             SnakeHead head = (SnakeHead) entity;
             if (!head.hasShield()) head.changeHealth(-damage);
-            destroy();
+            if (this instanceof SimpleEnemy) destroy();
         }
     }
 

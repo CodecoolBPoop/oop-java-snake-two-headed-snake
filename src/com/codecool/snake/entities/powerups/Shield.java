@@ -8,10 +8,12 @@ import javafx.scene.layout.Pane;
 
 import java.util.Random;
 
-public class HealthPack extends GameEntity implements Interactable {
-  public HealthPack(Pane pane) {
+import static java.lang.Thread.sleep;
+
+public class Shield extends GameEntity implements Interactable{
+  public Shield(Pane pane) {
     super(pane);
-    setImage(Globals.powerupHealth);
+    setImage(Globals.shield);
     pane.getChildren().add(this);
 
     Random rnd = new Random();
@@ -21,13 +23,15 @@ public class HealthPack extends GameEntity implements Interactable {
 
   @Override
   public void apply(SnakeHead snakeHead) {
-    snakeHead.changeHealth(10);
-    destroy();
+    if (!snakeHead.hasShielding()) {
+      snakeHead.setShielding();
+      destroy();
+    }
   }
 
   @Override
   public String getMessage() {
-    return "Got power-up :)";
+    return "Got power-up-shield :)";
   }
 
 }

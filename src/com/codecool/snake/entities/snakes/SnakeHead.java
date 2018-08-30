@@ -16,6 +16,8 @@ public class SnakeHead extends GameEntity implements Animatable {
     private GameEntity tail; // the last element. Needed to know where to add the next part.
     private int health = 100;
     private int score = 0;
+    private boolean shield;
+    private  int shieldTimer = 0;
     private int stepCounter = 0;
     private Display display;
 
@@ -71,12 +73,23 @@ public class SnakeHead extends GameEntity implements Animatable {
         if (stepCounter % 60 == 0) updateScore(1);
 
         stepCounter++;
+        if (shieldTimer > 0) {
+            shieldTimer--;
+            if (shieldTimer == 0) {
+                shield = false;
+                this.setImage(Globals.snakeHead);
+            }
+        }
     }
 
     public void addPart(int numParts) {
         for (int i = 0; i < numParts; i++) {
             tail = new SnakeBody(pane, tail);
         }
+    }
+
+    public void removePart() {
+            tail.destroy();
     }
 
     public void changeHealth(int diff) {
@@ -88,4 +101,15 @@ public class SnakeHead extends GameEntity implements Animatable {
         score += diff;
         display.score(score);
     }
+
+    public boolean hasShielding() {
+        return shield;
+    }
+
+    public void setShielding() {
+        shield = true;
+        this.setImage(Globals.snakeHead1);
+        shieldTimer = 600;
+    }
+
 }

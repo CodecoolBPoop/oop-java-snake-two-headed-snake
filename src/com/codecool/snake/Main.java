@@ -12,12 +12,24 @@ public class Main extends Application {
 
     @Override
     public void start(Stage primaryStage) {
-        Game game = new Game();
+        startGame(primaryStage);
+    }
 
+    private static void startGame(Stage primaryStage) {
+        Globals.init();
+        Game game = new Game();
+        Globals.primaryStage = primaryStage;
         primaryStage.setTitle("Snake Game");
         primaryStage.setScene(new Scene(game, Globals.WINDOW_WIDTH, Globals.WINDOW_HEIGHT));
         primaryStage.show();
+        if (!primaryStage.isFocused()) primaryStage.requestFocus();
         game.start();
+    }
+
+    public static void restart(Stage primaryStage) {
+        Globals.gameLoop.stop();
+        primaryStage.close();
+        startGame(primaryStage);
     }
 
 }

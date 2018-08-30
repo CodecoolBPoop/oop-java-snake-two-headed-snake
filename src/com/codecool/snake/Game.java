@@ -51,6 +51,7 @@ public class Game extends Pane {
             switch (event.getCode()) {
                 case LEFT:  Globals.leftKeyDown  = false; break;
                 case RIGHT: Globals.rightKeyDown  = false; break;
+                case R: Main.restart(Globals.primaryStage);
             }
         });
         Globals.gameLoop = new GameLoop(this);

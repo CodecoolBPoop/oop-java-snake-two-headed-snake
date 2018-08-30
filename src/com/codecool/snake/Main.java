@@ -16,15 +16,18 @@ public class Main extends Application {
     }
 
     private static void startGame(Stage primaryStage) {
+        Globals.init();
         Game game = new Game();
         Globals.primaryStage = primaryStage;
         primaryStage.setTitle("Snake Game");
         primaryStage.setScene(new Scene(game, Globals.WINDOW_WIDTH, Globals.WINDOW_HEIGHT));
         primaryStage.show();
+        primaryStage.requestFocus();
         game.start();
     }
 
     public static void restart(Stage primaryStage) {
+        Globals.gameLoop.stop();
         primaryStage.close();
         startGame(primaryStage);
     }

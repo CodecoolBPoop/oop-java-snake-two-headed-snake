@@ -36,7 +36,7 @@ public class Globals {
     public static Stage primaryStage;
     public static Display display;
 
-    static {
+    public static void init() {
         gameObjects = new LinkedList<>();
         newGameObjects = new LinkedList<>();
         oldGameObjects = new LinkedList<>();

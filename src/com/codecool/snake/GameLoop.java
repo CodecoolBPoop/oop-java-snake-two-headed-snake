@@ -21,9 +21,9 @@ public class GameLoop extends AnimationTimer {
     @Override
     public void handle(long now) {
         int frame = (int) (now / 16666666.6667);
-        if (frame % 900 == 0) new SimpleEnemy(game); // 15 seconds
-        if (frame % 1200 == 0) new SimplePowerUp(game); // 20 seconds
-        if (frame % 1500 == 0) new HealthPack(game); // 25 seconds
+        if (frame % 600 == 0) new SimpleEnemy(game); // 10 seconds
+        if (frame % 900 == 0) new SimplePowerUp(game); // 15 seconds
+        if (frame % 1950 == 0) new HealthPack(game); // 32.5 seconds
         if (frame % 2100 == 0) new Shield(game); // 35 seconds
         for (GameEntity gameObject : Globals.gameObjects) {
             if (gameObject instanceof Animatable) {
